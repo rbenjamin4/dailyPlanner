@@ -10,12 +10,11 @@ console.log(today)
 
 // use dayJS to get current hour and store that in a variable 
 
-const hour = dayjs().format('H:mm')
+const hour = dayjs().format('H')
 console.log(hour)
 
-const divs = Array.from(document.querySelectorAll('.time-block')) 
-console.log(divs)
-// this is an array
+// obtain all divs that have time-block class
+let timeBlocks = document.querySelectorAll('.time-block');
 
 // append to page
     // create an element
@@ -32,35 +31,28 @@ div.appendChild(h3)
   
 displayDate()
 
-// for loop
-    // get inner text from each div
-for (let i = 0; i < divs.length; i++) {
-    const innerText = divs[i].innerText
-    console.log(innerText)
+// get id for each hour block and compare that to current hour to color code each hour block
 
-    if (innerText < hour) {
-        divs.forEach(div => {
-            div.setAttribute('class', 'row time-block past')
-        })
-    }
-    else if (innerText === hour) {
-        divs.forEach(div => {
-            div.setAttribute('class', 'row time-block present')
-        })
-    }
-    else {
-        divs.forEach(div => {
-            div.setAttribute('class', 'row time-block future')
-        })
-    }
-}
+function setBlockColor() {
 
-    // compare that to the current hour (if statement)
-        // .setAttribute('class', 'row time-block past')
-    // if inner text is equal to the current hour
-        //.setAttribute('class', 'row time-block present')
-    // if inner text is ahead of current hour
-        //.setAttribute('class', 'row time-block future')
+    timeBlocks.forEach(function(block) {
+      let blockHour = parseInt(block.id)
+      
+      if (blockHour < hour) {
+        block.classList.add('past')
+        block.classList.remove('present', 'future')
+      } else if (blockHour == hour) {
+        block.classList.add('present')
+        block.classList.remove('past', 'future')
+      } else {
+        block.classList.add('future')
+        block.classList.remove('past', 'present')
+      }
+    })
+  }
+  
+
+setBlockColor()
     
 // save things in localstorage
 //get value from text input
